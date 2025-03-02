@@ -28,8 +28,17 @@ export async function POST(req: Request) {
       { expiresIn: "1h" }
     );
 
-    return NextResponse.json({ message: "Login successful", token });
+    // Return user details along with the token
+    return NextResponse.json({
+      message: "Login successful",
+      token,
+      user: {
+        name: user.name,
+        email: user.email,
+      },
+    });
   } catch (error) {
+    console.error("Login Error:", error);
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }
